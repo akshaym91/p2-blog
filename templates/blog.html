@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block bodycontent %}
+<h2>Blog</h2>
+<a class="btn btn-block" href="blog/newpost">Create New Blog</a>
+<div class="columns">
+	<div class="column">
+		{% for blog in blogs %}
+			<div class="blog">
+				<div class="blog-title"><h3>{{blog.title}}</h3></div>
+				<div class="blog-body">{{blog.content}}</div>
+			</div>
+		{% endfor%}
+	</div>
+</div>
+{% endblock %}
