@@ -85,7 +85,7 @@ class BloggerDisplayPost(Handler):
 
         self.render("blogpost.html", blog=post, error=error)
 
-app = webapp2.WSGIApplication([('/', MainPage),
+app = webapp2.WSGIApplication([('/blog', MainPage),
                                ('/blog/newpost', BloggerNew),
                                ('/blog/([0-9]+)', BloggerDisplayPost)
                                ], debug=True)
