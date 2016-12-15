@@ -1,23 +1,20 @@
 {% extends "base.html" %} {% block bodycontent %}
-<h2>Blog</h2>
 <div class="columns">
-	<div class="column col-sm-12">
-		{% if error%}
-		<div class="toast toast-danger">
-		    <button class="btn btn-clear float-right"></button>
-		    {{error}}
-		</div>
-		{% endif%}
-		<form class="column" method="post">
-			<div class="form-group">
-				<input class="form-input" type="text" name="title" value="{{title}}">
-			</div>
-			<div class="form-group">
-				<textarea rows="15" class="form-input" name="content">{{content}}</textarea>
-			</div>
-			<br>
-			<input class="btn btm-primary" type="submit" name="submit">
-		</form>
-	</div>
+    {% if error%}
+    <div class="toast toast-danger">
+        <button class="btn btn-clear float-right"></button>
+        {{error}}
+    </div>
+    {% endif%}
+    <form class="column" method="post">
+        <div class="form-group">
+            <input class="form-input blog-title" type="text" name="subject" placeholder="Title" value="{{subject}}">
+        </div>
+        <div class="form-group">
+            <textarea rows="15" class="form-input" name="content">{{content}}</textarea>
+        </div>
+        <br>
+        <input class="btn btm-primary" type="submit" name="submit">
+    </form>
 </div>
 {% endblock %}

@@ -1,14 +1,21 @@
 {% extends "base.html" %} {% block bodycontent %}
-<h2>Blog</h2>
-<a class="btn btn-block" href="blog/newpost">Create New Blog</a>
-<div class="columns">
-	<div class="column">
+<div class="container">
+	<div class="columns">
 		{% for blog in blogs %}
-			<div class="blog">
-				<div class="blog-title"><h3>{{blog.title}}</h3></div>
-				<div class="blog-body">{{blog.content}}</div>
-			</div>
-		{% endfor%}
+	    <div class="column col-md-4 col-sm-12">
+	        <div class="blog card">
+	            <div class="card-header">
+	                <h4 class="blog-title card-title">{{blog.subject}}</h4>
+	            </div>
+	            <div class="blog-content card-body">
+	                {{blog.content}}
+	            </div>
+	            <div class="card-footer">
+	                <a href="/blog/{{blog.key().id()}}" class="btn btn-primary">View</a>
+	            </div>
+	        </div>
+	    </div>
+	    {% endfor%}
 	</div>
 </div>
 {% endblock %}

@@ -22,45 +22,33 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 
+def blog_key(name='default'):
+    return db.Key.from_path('Blog', name)
+
+
 class Blog(db.Model):
     """docstring for """
-    title = db.StringProperty(required=True)
+    subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
-    id = db.IntegerProperty()
 
 
 class MainPage(Handler):
     """docstring for MainPage"""
 
-    def render_front(self, title="", content="", error=""):
+    def render_front(self, subject="", content="", error=""):
         blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC")
         self.render("blog.html", blogs=blogs)
 
     def get(self):
         self.render_front()
 
-    def post(self):
-        title = self.request.get("title")
-        content = self.request.get("content")
-        id = STATIC_ID_GEN + 1
-        STATIC_ID_GEN = STATIC_ID_GEN + 1
-        if title and content:
-            a = Blog(title=title, content=content, id=id)
-            a.put()
-            self.redirect("/blog/{{blog.id}}")
-        else:
-            error = "We need both a title and content before submitting"
-            self.render_front(title, content, error)
-
 
 class BloggerNew(Handler):
     """docstring for BloggerNew"""
 
-    STATIC_ID_GEN = 0
-
-    def render_front(self, title="", content="", error=""):
-        self.render("newblog.html", title=title,
+    def render_front(self, subject="", content="", error=""):
+        self.render("newblog.html", subject=subject,
                     content=content, error=error)
 
     def get(self):
@@ -68,35 +56,36 @@ class BloggerNew(Handler):
 
     def post(self):
         instance = BloggerNew()
-        title = self.request.get("title")
+        subject = self.request.get("subject")
         content = self.request.get("content")
-        id = instance.STATIC_ID_GEN + 1
-        instance.STATIC_ID_GEN = instance.STATIC_ID_GEN + 1
-        if title and content:
-            a = Blog(title=title, content=content, id=id)
-            a.put()
-            self.redirect('/blog/%s' % id)
+        if subject and content:
+            p = Blog(parent=blog_key(), subject=subject, content=content)
+            p.put()
+            self.redirect('/blog/%s' % str(p.key().id()))
         else:
-            error = "We need both a title and content before submitting"
-            self.render_front(title, content, error)
+            error = "We need both a subject and content before submitting"
+            self.render_front(subject, content, error)
 
 
 class BloggerDisplayPost(Handler):
     """docstring for DisplayPost"""
 
     def get(self, post_id):
-        blog = Blog(db.GqlQuery("SELECT * FROM Blog WHERE id=" + post_id))
-        self.render("blogpost.html", blog=blog)
+        """
+            This renders home post page with content, comments and likes.
+        """
+        key = db.Key.from_path('Blog', int(post_id), parent=blog_key())
+        post = db.get(key)
 
+        if not post:
+            self.error(404)
+            return
 
-class ThanksHandler(Handler):
-    """docstring for ThanksHandler"""
+        error = self.request.get('error')
 
-    def get(self):
-        user_username = self.request.get('user_username')
-        self.render("thanks.html", user_username=user_username)
+        self.render("blogpost.html", blog=post, error=error)
 
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/blog/newpost', BloggerNew),
-                               (r'/blog/(\d+)>', BloggerDisplayPost),
-                               ('/thanks', ThanksHandler)], debug=True)
+                               ('/blog/([0-9]+)', BloggerDisplayPost)
+                               ], debug=True)

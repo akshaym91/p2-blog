@@ -2,19 +2,25 @@
 <html>
 
 <head>
-    <title>PyNoob</title>
+    <title>PyBlog</title>
     <link rel="stylesheet" type="text/css" href="/css/spectre.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/asciichan.css">
 </head>
 
 <body class="container">
-    <a class="btn btn-link" href="/">Home</a>
-    {% block bodycontent %}
-    {% endblock %}
+    <div class="columns">
+        <div class="column text-left">
+            <h2>PyBlog</h2>
+        </div>
+        <div class="column text-right">
+            <a class="btn btn-link" href="/">Home</a>
+            <a class="btn btn-primary" href="/blog/newpost">Create New Blog</a>
+        </div>
+    </div>
+    {% block bodycontent %} {% endblock %}
     <footer class="text-center">
-            &copy; 2016, <i><a class="btn btn-link" href="https://akshaym91.github.io">Akshay Menon</a></i>All Rights Reserved.
-            Licensed under <a class="btn btn-link" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>
+        &copy; 2016, <i><a class="btn btn-link" href="https://akshaym91.github.io">Akshay Menon</a></i>All Rights Reserved. Licensed under <a class="btn btn-link" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>
     </footer>
 </body>
-
 
 </html>
