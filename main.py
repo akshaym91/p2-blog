@@ -150,6 +150,63 @@ class SignUp(Handler):
             self.redirect("/blog")
 
 
+class Login(Handler):
+    """docstring for Login"""
+
+    def get(self):
+        errors = {"username_error": "",
+                  "password_error": ""}
+        self.render("login.html", errors=errors)
+
+    def post(self):
+
+        def validate_username(username):
+            USERNAME_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+            return USERNAME_RE.match(username)
+
+        def validate_password(password):
+            PASSWORD_RE = re.compile(r"^.{3,20}$")
+            return PASSWORD_RE.match(password)
+
+        def make_salt():
+            return ''.join(random.choice(string.letters) for x in xrange(5))
+
+        def make_pw_hash(name, pw, salt=""):
+            if (salt == ""):
+                salt = make_salt()
+            h = hashlib.sha256(name + pw + salt).hexdigest()
+            return '%s|%s' % (h, salt)
+
+        user_username = self.request.get('username')
+        user_password = self.request.get('password')
+
+        test_username = validate_username(user_username)
+        test_password = validate_password(user_password)
+
+        username_error = ""
+        password_error = ""
+
+        if (not test_username):
+            username_error = "Invalid Username."
+
+        if (not validate_password(user_password)):
+            password_error = "Invalid Password."
+
+        if not (test_username and test_password):
+            self.render("login.html",
+                        errors={"username_error": username_error,
+                                "password_error": password_error,
+                                "user_username": user_username,
+                                })
+        else:
+            hashedpassword = make_pw_hash(user_username, user_password)
+            cookievalue = str('user=' + user_username +
+                              '; password=' + hashedpassword + '; Path=/blog')
+            self.response.headers.add_header(
+                'Set-Cookie', cookievalue)
+            self.redirect("/blog")
+
+
 class BloggerNew(Handler):
     """docstring for BloggerNew"""
 
@@ -193,6 +250,7 @@ class BloggerDisplayPost(Handler):
 
 app = webapp2.WSGIApplication([('/blog', MainPage),
                                ('/blog/signup', SignUp),
+                               ('/blog/login', Login),
                                ('/blog/newpost', BloggerNew),
                                ('/blog/([0-9]+)', BloggerDisplayPost)
                                ], debug=True)
