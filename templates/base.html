@@ -3,21 +3,26 @@
 
 <head>
     <title>PyBlog</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/spectre.min.css">
     <link rel="stylesheet" type="text/css" href="/css/asciichan.css">
 </head>
 
-<body class="container">
-    <div class="columns">
-        <div class="column text-left">
-            <h2>PyBlog</h2>
+<body>
+    <div class="container">
+        <div class="columns">
+            <div class="column text-left">
+                <h2>PyBlog</h2>
+            </div>
+            <div class="column text-right">
+                <a class="btn btn-link" href="/">Home</a>
+                <a class="btn btn-primary" href="/blog/newpost">Create New Blog</a>
+            </div>
         </div>
-        <div class="column text-right">
-            <a class="btn btn-link" href="/">Home</a>
-            <a class="btn btn-primary" href="/blog/newpost">Create New Blog</a>
-        </div>
+        {% block bodycontent %} {% endblock %}
     </div>
-    {% block bodycontent %} {% endblock %}
     <footer class="text-center">
         &copy; 2016, <i><a class="btn btn-link" href="https://akshaym91.github.io">Akshay Menon</a></i>All Rights Reserved. Licensed under <a class="btn btn-link" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>
     </footer>

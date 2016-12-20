@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block bodycontent %}
+<div class="container">
+    <div class="columns">
+        <div class="column col-md-4"></div>
+        <div class="column col-md-4">
+            <h3>Signup to unlock more features!</h3>
+            <form method="post">
+                <div class="form-group">
+                    <label>Username<b style="color: red">*</b> :</label>
+                    <input class="form-input" type="textbox" name="username" value="{{errors.user_username}}" required> {% if errors %}
+                    <span style="color: red">{{errors.username_error}}</span> {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Password<b style="color: red">*</b>:</label>
+                    <input class="form-input" type="password" name="password" required> {% if errors %}
+                    <span style="color: red">{{errors.password_error}}</span> {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Verify Password<b style="color: red">*</b>:</label>
+                    <input class="form-input" type="password" name="verify" required> {% if errors %}
+                    <span style="color: red">{{errors.verify_error}}</span> {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Email (optional):</label>
+                    <input class="form-input" type="textbox" name="email" value="{{errors.user_email}}"> {% if errors %}
+                    <span style="color: red">{{errors.email_error}}</span> {% endif %}
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Signup">
+                </div>
+            </form>
+        </div>
+        <div class="column col-md-4"></div>
+    </div>
+</div>
+{% endblock %}
