@@ -207,6 +207,16 @@ class Login(Handler):
             self.redirect("/blog")
 
 
+class Logout(Handler):
+    """docstring for Logout"""
+
+    def get(self):
+        cookievalue = str('user=""; password=""; Path=/blog')
+        self.response.headers.add_header(
+            'Set-Cookie', cookievalue)
+        self.redirect("/blog/signup")
+
+
 class BloggerNew(Handler):
     """docstring for BloggerNew"""
 
@@ -251,6 +261,7 @@ class BloggerDisplayPost(Handler):
 app = webapp2.WSGIApplication([('/blog', MainPage),
                                ('/blog/signup', SignUp),
                                ('/blog/login', Login),
+                               ('/blog/logout', Logout),
                                ('/blog/newpost', BloggerNew),
                                ('/blog/([0-9]+)', BloggerDisplayPost)
                                ], debug=True)
