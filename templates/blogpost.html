@@ -1,6 +1,21 @@
 {% extends "base.html" %} {% block bodycontent %}
-	<div class="blog container">
-		<div class="blog-title"><h3>{{blog.subject}}</h3></div>
-		<div class="blog-body">{{blog.content}}</div>
-	</div>
+    <div class="modal active">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a class="btn btn-clear float-right" href="/blog"></a>
+                <div class="modal-title">{{blog.creator_id}}</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <h3>{{blog.subject}}</h3>
+                    {{blog.content}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-link" href="/blog">Close</a>
+                <button class="btn btn-primary">Share</button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,5 +1,17 @@
 {% extends "base.html" %} {% block bodycontent %}
 <div class="columns">
+    <div class="column">
+        <figure class="avatar avatar-xl">
+            <img src="/css/images/logo.png" />
+        </figure>
+        <h3 class="page-title">PyBlog</h3>
+    </div>
+    <div class="column text-right">
+        <a class="btn btn-link" href="/blog">Home</a>
+        <a class="btn" href="/blog/logout">Logout</a>
+    </div>
+</div>
+<div class="columns">
     {% if error%}
     <div class="toast toast-danger">
         <button class="btn btn-clear float-right"></button>
@@ -13,6 +25,7 @@
         <div class="form-group">
             <textarea rows="15" class="form-input" name="content">{{content}}</textarea>
         </div>
+        <input type="hidden" name="creator" value="{{user.name}}">
         <br>
         <input class="btn btm-primary" type="submit" name="submit">
     </form>

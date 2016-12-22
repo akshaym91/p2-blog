@@ -1,9 +1,20 @@
 {% extends "base.html" %} {% block bodycontent %}
+<div class="columns">
+    <div class="column">
+        <figure class="avatar avatar-xl">
+            <img src="/css/images/logo.png" />
+        </figure>
+        <h3 class="page-title">PyBlog</h3>
+    </div>
+    <div class="column text-right">
+        <a class="btn btn-link" href="/blog">Home</a>
+    </div>
+</div>
 <div class="container">
     <div class="columns">
         <div class="column col-md-4"></div>
         <div class="column col-md-4">
-            <h3>Signup to unlock more features!</h3>
+            <h3>Signup to write your own!</h3>
             <form method="post">
                 <div class="form-group">
                     <label>Username<b style="color: red">*</b> :</label>
@@ -27,6 +38,7 @@
                 </div>
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="Signup">
+                    <a class="btn" href="/blog/login">Login</a>
                 </div>
             </form>
         </div>

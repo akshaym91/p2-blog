@@ -1,22 +1,65 @@
-{% extends "base.html" %} {% block bodycontent %}
+{% extends "base.html" %}
+{% block bodycontent %}
+<div class="columns">
+    <div class="column">
+        <figure class="avatar avatar-xl">
+            <img src="/css/images/logo.png" />
+        </figure>
+        <h3 class="page-title">PyBlog</h3>
+    </div>
+    {% if not (user.name=="Anonymous") %}
+    <div class="column text-right">
+        <a class="btn btn-link" href="/blog">Home</a>
+        <a class="btn btn-primary" href="/blog/newpost">Create</a>
+        <a class="btn" href="/blog/logout">Logout</a>
+    </div>
+    {% endif %}
+    {% if (user.name=="Anonymous") %}
+    <div class="column text-right">
+        <a class="btn btn-link" href="/blog">Home</a>
+        <a class="btn btn-link" href="/blog/login">Login</a>
+        <a class="btn btn-primary" href="/blog/signup">Signup</a>
+    </div>
+    {% endif %}
+</div>
 <div class="container">
-	<h3>Hi, {{user}}!</h3>
-	<div class="columns">
-		{% for blog in blogs %}
-	    <div class="column col-4 col-md-6 col-sm-12">
-	        <div class="blog card">
-	            <div class="card-header">
-	                <h4 class="blog-title card-title">{{blog.subject}}</h4>
-	            </div>
-	            <div class="blog-content card-body">
-	                {{blog.content}}
-	            </div>
-	            <div class="card-footer">
-	                <a href="/blog/{{blog.key().id()}}" class="btn btn-primary">View</a>
-	            </div>
-	        </div>
-	    </div>
-	    {% endfor%}
-	</div>
+    {% if not (user.name=="Anonymous") %}
+    <h3>Hi, {{user.name}}!</h3>
+    <div class="columns">
+        {% for blog in myblogs %}
+        <div class="column col-4 col-md-6 col-sm-12">
+            <div class="blog card">
+                <div class="card-header">
+                    <h4 class="blog-title card-title">{{blog.subject}}</h4>
+                </div>
+                <div class="blog-content card-body">
+                    {{blog.content|truncate(230)}}
+                </div>
+                <div class="card-footer">
+                    <a href="/blog/{{blog.key().id()}}" class="btn">View</a>
+                    <a href="/blog/{{blog.key().id()}}" class="btn">Edit</a>
+                </div>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
+    {% endif %}
+    <div class="columns">
+        {% for blog in blogs %}
+        <div class="column col-4 col-md-6 col-sm-12">
+            <div class="blog card">
+                <div class="card-header">
+                    <h4 class="blog-title card-title">{{blog.subject}}</h4>
+                </div>
+                <div class="blog-content card-body">
+                    {{blog.content|truncate(230)}}
+                </div>
+                <div class="card-footer">
+                    <a href="/blog/{{blog.key().id()}}" class="btn">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
 </div>
 {% endblock %}
