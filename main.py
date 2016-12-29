@@ -122,7 +122,7 @@ class User(db.Model):
     This class defines the model for a new blog with 3 attrbutes:
     Name, Hashed Password and Email ID.
     """
-    name = db.StringProperty(required=True)
+    name = db.StringProperty(required=True, indexed=True)
     hashed_password = db.StringProperty(required=True)
     email = db.StringProperty()
 
@@ -154,9 +154,9 @@ class Blog(db.Model):
     This class defines the model for a new blog with 5 attrbutes:
     Subject, Content, Created, Last Modified and Creator ID.
     """
-    subject = db.StringProperty(required=True)
+    subject = db.StringProperty(required=True, indexed=True)
     content = db.TextProperty(required=True)
-    creator_id = db.StringProperty(required=True)
+    creator_id = db.StringProperty(required=True, indexed=True)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
 
