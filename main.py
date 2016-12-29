@@ -58,7 +58,8 @@ def user_key(name='default'):
 
 
 class Handler(webapp2.RequestHandler):
-    """docstring for Handler"""
+    """Handler is a generic http method handling class.
+    """
 
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
@@ -93,12 +94,16 @@ class Handler(webapp2.RequestHandler):
 
 
 class MainPage(Handler):
-    """docstring for MainPage"""
+    """MainPage is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the home page with user specific information.
+    """
 
     def render_front(self, user):
         myblogs = db.GqlQuery("SELECT * FROM Blog WHERE creator_id = '" +
                               user.name + "' ORDER BY created DESC")
-        blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC")
+        blogs = db.GqlQuery("SELECT * FROM Blog WHERE creator_id != '" +
+                            user.name + "'")
         self.render("blog.html", myblogs=myblogs, blogs=blogs, user=user)
 
     def get(self):
@@ -113,8 +118,10 @@ class MainPage(Handler):
 
 
 class User(db.Model):
-    """docstring for User"""
-
+    """User is a class that inerits from db.Model class of the db module.
+    This class defines the model for a new blog with 3 attrbutes:
+    Name, Hashed Password and Email ID.
+    """
     name = db.StringProperty(required=True)
     hashed_password = db.StringProperty(required=True)
     email = db.StringProperty()
@@ -143,7 +150,10 @@ class User(db.Model):
 
 
 class Blog(db.Model):
-    """docstring for Blog"""
+    """Blog is a class that inerits from db.Model class of the db module.
+    This class defines the model for a new blog with 5 attrbutes:
+    Subject, Content, Created, Last Modified and Creator ID.
+    """
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
@@ -152,7 +162,12 @@ class Blog(db.Model):
 
 
 class SignUp(Handler):
-    """docstring for SignUp"""
+    """SignUp is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the signup page form.
+    post(): Submits the form to the database to create a new user
+     and also logs the user in.
+    """
 
     def get(self):
         errors = {"username_error": "",
@@ -219,7 +234,7 @@ class SignUp(Handler):
             user = User.by_name(user_username)
             if user:
                 message = 'That user already exists'
-                self.render("signup.html", username_error=message)
+                self.render("signup.html", errors={"username_error": message})
             else:
                 user = User.register(user_username,
                                      user_password,
@@ -230,7 +245,11 @@ class SignUp(Handler):
 
 
 class Login(Handler):
-    """docstring for Login"""
+    """Login is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the login page form.
+    post(): Logs the user in and sets the appropriate calue in the cookie.
+    """
 
     def get(self):
         errors = {"username_error": "",
@@ -283,7 +302,10 @@ class Login(Handler):
 
 
 class Logout(Handler):
-    """docstring for Logout"""
+    """Logout is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Logs the user out and resets the user_id key of the cookie.
+    """
 
     def get(self):
         self.logout()
@@ -291,7 +313,11 @@ class Logout(Handler):
 
 
 class BloggerNew(Handler):
-    """docstring for BloggerNew"""
+    """BloggerNew is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the form with form to write a new blog.
+    post(): Submits the form to a database.
+    """
 
     def render_front(self, subject="", content="", error=""):
         user = User.by_id(int(self.get_cookie('user_id')))
@@ -307,7 +333,7 @@ class BloggerNew(Handler):
         content = self.request.get("content")
         creator_id = self.request.get("creator")
         if subject and content:
-            p = Blog(parent=blog_key(), subject=subject,
+            p = Blog(parent=blog_key(name=""), subject=subject,
                      content=content, creator_id=creator_id)
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
@@ -316,8 +342,43 @@ class BloggerNew(Handler):
             self.render_front(subject, content, error)
 
 
+class EditPost(Handler):
+    """EditPost is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the form with form to write a new blog.
+    post(): Submits the form to a database.
+    """
+
+    def render_front(self, subject="", content="", error=""):
+        user = User.by_id(int(self.get_cookie('user_id')))
+        self.render("newblog.html", subject=subject,
+                    content=content, error=error, user=user)
+
+    def get(self, post_id):
+        key = db.Key.from_path('Blog', int(post_id), parent=blog_key())
+        post = db.get(key)
+        self.render_front(subject=post.subject, content=post.content)
+
+    def post(self, post_id):
+        subject = self.request.get("subject")
+        content = self.request.get("content")
+        if subject and content:
+            key = db.Key.from_path('Blog', int(post_id), parent=blog_key())
+            p = db.get(key)
+            p.subject = subject
+            p.content = content
+            p.put()
+            self.redirect('/blog/%s' % post_id)
+        else:
+            error = "We need both a subject and content before submitting"
+            self.render_front(subject, content, error)
+
+
 class BloggerDisplayPost(Handler):
-    """docstring for DisplayPost"""
+    """BloggerDisplayPost is a class that inerits from Handler class.
+    The following http methods are available on the Handler:
+    get(): Displays the Post in an exclusive view.
+    """
 
     def get(self, post_id):
         """
@@ -339,5 +400,6 @@ app = webapp2.WSGIApplication([('/blog', MainPage),
                                ('/blog/login', Login),
                                ('/blog/logout', Logout),
                                ('/blog/newpost', BloggerNew),
-                               ('/blog/([0-9]+)', BloggerDisplayPost)
+                               ('/blog/([0-9]+)', BloggerDisplayPost),
+                               ('/blog/edit/([0-9]+)', EditPost)
                                ], debug=True)

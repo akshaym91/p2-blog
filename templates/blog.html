@@ -2,16 +2,13 @@
 {% block bodycontent %}
 <div class="columns">
     <div class="column">
-        <figure class="avatar avatar-xl">
-            <img src="/css/images/logo.png" />
-        </figure>
-        <h3 class="page-title">PyBlog</h3>
+        <h3 class="page-title"><i class="fa fa-pied-piper-pp" aria-hidden="true"></i>  PyBlog</h3>
     </div>
     {% if not (user.name=="Anonymous") %}
     <div class="column text-right">
-        <a class="btn btn-link" href="/blog">Home</a>
-        <a class="btn btn-primary" href="/blog/newpost">Create</a>
-        <a class="btn" href="/blog/logout">Logout</a>
+        <a class="btn btn-link" href="/blog"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        <a class="btn btn-primary" href="/blog/newpost"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
+        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
     </div>
     {% endif %}
     {% if (user.name=="Anonymous") %}
@@ -36,8 +33,8 @@
                     {{blog.content|truncate(230)}}
                 </div>
                 <div class="card-footer">
-                    <a href="/blog/{{blog.key().id()}}" class="btn">View</a>
-                    <a href="/blog/{{blog.key().id()}}" class="btn">Edit</a>
+                    <a href="/blog/{{blog.key().id()}}" class="btn"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                    <a href="/blog/edit/{{blog.key().id()}}" class="btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
                 </div>
             </div>
         </div>
@@ -55,7 +52,7 @@
                     {{blog.content|truncate(230)}}
                 </div>
                 <div class="card-footer">
-                    <a href="/blog/{{blog.key().id()}}" class="btn">View</a>
+                    <a href="/blog/{{blog.key().id()}}" class="btn"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
                 </div>
             </div>
         </div>
