@@ -293,7 +293,7 @@ class Login(Handler):
                 self.login(user)
                 self.redirect('/blog')
             else:
-                username_error = "User already exists"
+                username_error = "User does not exist."
                 self.render("login.html",
                             errors={"username_error": username_error,
                                     "password_error": password_error,
