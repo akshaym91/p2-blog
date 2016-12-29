@@ -156,9 +156,9 @@ class Blog(db.Model):
     """
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
+    creator_id = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
-    creator_id = db.StringProperty(required=True)
 
 
 class SignUp(Handler):
