@@ -333,7 +333,7 @@ class BloggerNew(Handler):
         content = self.request.get("content")
         creator_id = self.request.get("creator")
         if subject and content:
-            p = Blog(parent=blog_key(name=""), subject=subject,
+            p = Blog(parent=blog_key(), subject=subject,
                      content=content, creator_id=creator_id)
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
