@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block bodycontent %}
+<div class="columns">
+    <div class="column">
+        <h3 class="page-title"><i class="fa fa-pied-piper-pp" aria-hidden="true"></i>  PyBlog</h3>
+    </div>
+</div>
+<div class="container">
+    <div class="columns">
+        <div class="column col-md-4"></div>
+        <div class="column col-md-4">
+            <div class="row toast toast-danger">
+                {% if errors %}
+                <i class="fa fa-exclamation-triangle"> </i> <span style="color: white">{{errors.unauth_error}}</span>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="row">
+                <a href="/blog" class="btn btn-primary">Home</a>
+            </div>
+        </div>
+        <div class="column col-md-4"></div>
+    </div>
+</div>
+
+{% endblock %}

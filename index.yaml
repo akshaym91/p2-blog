@@ -15,3 +15,9 @@ indexes:
   - name: creator_id
   - name: created
     direction: desc
+
+- kind: Blog
+  properties:
+  - name: username
+  - name: created
+    direction: desc

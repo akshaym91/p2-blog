@@ -19,10 +19,24 @@ body > .container {
     height: auto;
     min-height: 100%;
 }
+.content {
+    margin: 1em;
+    padding: 1em;
+    outline: ridge thick #4452c0;
+}
 footer {
     clear: both;
     position: relative;
     z-index: 10;
     height: 3em;
     margin-top: 0em;
+}
+hr {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+#likebutton {
+    font-size: 2em;
+    margin: 1em 0;
+    height: auto;
 }

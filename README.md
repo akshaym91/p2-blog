@@ -5,7 +5,7 @@ This project is a mulituser blog made in python using Jinja2 and Google App Engi
 For styling [Spectre.css](https://picturepan2.github.io/spectre) is used.
 
 ##Public URL
-The public url for this blog is: https://udacity-152006.appspot.com/blog
+The public url for this blog is: https://pyblog-154013.appspot.com/blog
 
 ##How to Use?
 1. Install [Python2.7](https://www.python.org/) and ensure that it is added to the environment variable.

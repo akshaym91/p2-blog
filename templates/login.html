@@ -8,6 +8,8 @@
     <div class="columns">
         <div class="column col-md-4"></div>
         <div class="column col-md-4">
+            {% if errors %}
+            <span style="color: red">{{errors.unauth_error}}</span> {% endif %}
             <h3>Login</h3>
             <form method="post">
                 <div class="form-group">

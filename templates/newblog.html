@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="columns">
-    {% if error%}
+    {% if error %}
     <div class="toast toast-danger">
         <button class="btn btn-clear float-right"></button>
         {{error}}
@@ -25,6 +25,7 @@
         <input type="hidden" name="creator" value="{{user.name}}">
         <br>
         <input class="btn btm-primary" type="submit" name="submit">
+        <a href="/blog" class="btn btn-link">Cancel</a>
     </form>
 </div>
 {% endblock %}
