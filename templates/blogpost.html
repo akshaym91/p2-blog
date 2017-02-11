@@ -1,44 +1,65 @@
 {% extends "base.html" %} {% block bodycontent %}
+<div class="columns">
+    <div class="column">
+        <figure class="avatar avatar-xl" data-initial="AM" style="background-color: #5764c6;">
+            <img src="/css/images/167.png" />
+        </figure>
+        <h3 class="page-title"><a href="/blog">PyBlog</a></h3>
+    </div>
+    <div class="column text-right">
+        {{user.name}}
+        <figure class="avatar avatar-md" data-initial="AM" style="background-color: #5764c6;">
+            <img src="/css/images/avatar-1.png" />
+        </figure>
+        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+    </div>
+</div>
+<hr>
 <div class="container">
-    <div class="pull-right">
-        <a class="btn btn-link" href="/blog"><i class="fa fa-times" aria-hidden="true"></i> Close</a>
-        <a class="btn btn-link" href="/blog/{{blog.key().id()}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
-        <a class="btn btn-link" href="/blog/{{blog.key().id()}}/delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
-        <!--             <a class="btn btn-link" href="/blog"><i class="fa fa-share" aria-hidden="true"></i> Share</a> -->
-    </div>
-    <div>
-        <h2>{{blog.subject}}</h2>
-        <cite>- {{blog.username}}</cite>
-        <small class="label pull-right">Last modified: {{blog.last_modified.strftime('%c')}}</small>
-    </div>
-    <div class="content">
-        {{blog.content}}
-    </div>
-
-    <form class="circle" method="post">
-        {% if liked==True %}
-        <a href="/blog/{{blog.key().id()}}/like" class="btn btn-link" id="likebutton"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-        {% endif %}
-        {% if liked==False %}
-        <a href="/blog/{{blog.key().id()}}/unlike" class="btn btn-link" id="likebutton"><i class="fa fa-heart" aria-hidden="true"></i></a>
-        {% endif %}
-        <!-- <a class="btn btn-link" id="likebutton"><i class="fa fa-share" aria-hidden="true"></i> Share</a> -->
-    </form>
-    <div class="clearfix"></div>
-    <div>
-        <div class="chip-sm">
-            <span class="chip-name"><i class="fa fa-heart-o" aria-hidden="true"></i> {{blog.likes}}</span>
+    <div class="blog card">
+        <div class="card-header">
+            <!-- Show initals when avatar image is unavailable or not fully loaded -->
+            <div class="chip">
+                <figure class="avatar avatar-lg" data-initial="AM" style="background-color: #5764c6;">
+                    <img src="/css/images/avatar-2.png" />
+                </figure>
+                <div class="chip-content">
+                    {{blog.username}}
+                    <br>
+                    <small><time>{{blog.created.strftime('%c')}}</time></small>
+                    <br>
+                    <small>Last modified: {{blog.last_modified.strftime('%c')}}</small>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <h3 class="card-title"><bold>{{blog.subject}}</bold></h3>
         </div>
-        <div class="chip-sm">
-            <span class="chip-name"><i class="fa fa-comments-o" aria-hidden="true"></i> {{blog.comments}}</span>
+        <div class="blog-content card-body">
+            <p>{{blog.content}}</p>
         </div>
-        <div class="pull-right">
-            <small class="label">Created: {{blog.created.strftime('%c')}}</small>
+        <div class="divider"></div>
+        <div class="card-footer">
+            {% if liked==True %}
+                <a href="/blog/{{blog.key().id()}}/unlike" class="" id="likebutton"><i class="fa fa-heart" aria-hidden="true"></i></a>
+            {% else %}
+                <a href="/blog/{{blog.key().id()}}/like" class="" id="likebutton"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+            {% endif %}
+<!--             <div class="chip-sm">
+                <span class="chip-name"><i class="fa fa-heart-o" aria-hidden="true"></i> {{blog.likes}}</span>
+            </div>
+            <div class="chip-sm">
+                <span class="chip-name"><i class="fa fa-comments-o" aria-hidden="true"></i> {{blog.comments}}</span>
+            </div> -->
+            <div class="btn-group pull-right">
+                <a class="btn btn-link" href="/blog"><i class="fa fa-times" aria-hidden="true"></i> Close</a>
+                {% if user.name==blog.username %}
+                <a class="btn btn-link" href="/blog/{{blog.key().id()}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                <a class="btn btn-link" href="/blog/{{blog.key().id()}}/delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                {% endif %}
+            </div>
         </div>
     </div>
-
-    <div class="clearfix"></div>
-    <div class="divider"></div>
+    <hr>
     <form method="post" action="/blog/{{blog.key().id()}}/addComment">
         <div class="form-group">
             <textarea class="form-input" id="input-example-3" placeholder="Your views" rows="3" name="comment"></textarea>
@@ -50,10 +71,28 @@
     <div>
         {% for comment in comments %}
         <blockquote>
+            <div class="chip">
+                <figure class="avatar avatar-sm" data-initial="AM" style="background-color: #5764c6;">
+                    <img src="/css/images/avatar-2.png" />
+                </figure>
+                <div class="chip-content">
+                    {{comment.username}}
+                    <br>
+                    <small><time>{{comment.created.strftime('%c')}}</time></small>
+                </div>
+            </div>
             <p>{{comment.comment}}</p>
-            <cite>{{comment.username}}</cite>
-            <cite>{{comment.created.strftime('%c')}}</cite>
-            <!-- <small class="label">Created: {{blog.created}}</small> -->
+            <form action="/blog/deleteComment/{{comment.key().id()}}" method="POST">
+                <div class="btn-group">
+                    {% if user.name!=comment.username %}
+                    <a class="btn btn-link btn-sm" href=""><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                    <a class="btn btn-link btn-sm" href=""><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                    {% else %}
+                    <a class="btn btn-link btn-sm" href="/blog/editComment/{{comment.key().id()}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <input type="submit" value="Delete" class="btn btn-link btn-sm">
+                    {% endif %}
+                </div>
+            </form>
         </blockquote>
         {% endfor %}
     </div>

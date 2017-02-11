@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block bodycontent %}
+<div class="columns">
+    <div class="column">
+        <figure class="avatar avatar-xl" data-initial="YZ" style="background-color: #5764c6;">
+            <img src="/css/images/167.png" />
+        </figure>
+        <h3 class="page-title"><a href="/blog">PyBlog</a></h3>
+    </div>
+</div>
+<div class="form-group has-success">
+    <form role="form" method='post' action="/blog/editComment/{{comment.key().id()}}">
+        <label class="form-label" for="postid">Comment on <a href="/blog/{{comment.post_id}}">{{comment.post_id}}</a></label>
+        <label class="form-label" for="postid">Content</label>
+        <div class="form-group">
+            <textarea class="form-input" required id="comment" name="comment" rows="7">
+                {{comment.comment}}
+            </textarea>
+        </div>
+        <input class="btn btn-primary" type="submit" name="comment" value="Update comment">
+        <a class="btn btn-link" href="/blog/{{comment.post_id}}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

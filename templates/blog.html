@@ -1,75 +1,118 @@
-{% extends "base.html" %}
-{% block bodycontent %}
+{% extends "base.html" %} {% block bodycontent %}
 <div class="columns">
     <div class="column">
-        <h3 class="page-title"><i class="fa fa-pied-piper-pp" aria-hidden="true"></i>  PyBlog</h3>
+        <figure class="avatar avatar-xl" data-initial="AM" style="background-color: #5764c6;">
+            <img src="/css/images/167.png" />
+        </figure>
+        <h3 class="page-title"><a href="/blog">PyBlog</a></h3>
     </div>
     {% if not (user.name=="Anonymous") %}
     <div class="column text-right">
-        <a class="btn btn-link" href="/blog"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
-        <a class="btn btn-primary" href="/blog/newpost"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
-        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+        {{user.name}}
+        <figure class="avatar avatar-md" data-initial="AM" style="background-color: #5764c6;">
+            <img src="css/images/avatar-1.png" />
+        </figure>
+        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
     </div>
-    {% endif %}
-    {% if (user.name=="Anonymous") %}
+    {% endif %} {% if (user.name=="Anonymous") %}
     <div class="column text-right">
-        <a class="btn btn-link" href="/blog">Home</a>
         <a class="btn btn-link" href="/blog/login">Login</a>
         <a class="btn btn-primary" href="/blog/signup">Signup</a>
     </div>
     {% endif %}
 </div>
+<hr>
 <div class="container">
     {% if not (user.name=="Anonymous") %}
-    <h3>Hi, {{user.name}}!</h3>
     <div class="columns">
-        {% for blog in myblogs %}
-        <div class="column col-4 col-md-6 col-sm-12">
-            <div class="blog card content">
-                <div class="card-header">
-                    <h3 class="blog-title card-title label">{{blog.subject}}</h3>
-                    <cite class="label pull-right">{{blog.username}}</cite>
-                </div>
-                <div class="blog-content card-body">
-                    {{blog.content|truncate(230)}}
-                </div>
-                <div class="card-footer">
-                    <a href="/blog/{{blog.key().id()}}" class="btn btn-primary"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
-                    <a href="/blog/{{blog.key().id()}}/edit" class="btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                    <div class="pull-right">
-                        <div class="chip-sm">
-                            <span class="chip-name"><i class="fa fa-heart-o" aria-hidden="true"></i> {{blog.likes}}</span>
+        {% if numberofmyblogs==0 %}
+            <div class="empty">
+                <i class="icon icon-people"></i>
+                <p class="empty-title">You have not written any blogs yet.</p>
+                <p class="empty-meta">Start writing today!</p>
+                <a class="btn btn-primary empty-action" href="/blog/newpost"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
+            </div>
+        {% else %}
+            <a class="btn btn-block" href="/blog/newpost">Write your story!</a>
+            {% for blog in myblogs %}
+            <div class="column col-4 col-md-6 col-sm-12">
+                <div class="blog card content">
+                    <div class="card-header">
+                        <!-- Show initals when avatar image is unavailable or not fully loaded -->
+                        <div class="chip">
+                            <figure class="avatar avatar-lg" data-initial="AM" style="background-color: #5764c6;">
+                                <img src="css/images/avatar-1.png" />
+                            </figure>
+                            <div class="chip-content">
+                                {{blog.username}}
+                                <br>
+                                <small><time>{{blog.created.strftime('%c')}}</time></small>
+                            </div>
                         </div>
-                        <div class="chip-sm">
-                            <span class="chip-name"><i class="fa fa-comments-o" aria-hidden="true"></i> {{blog.comments}}</span>
-                        </div>
+                        <hr>
+                        <h3 class="card-title"><bold>{{blog.subject}}</bold></h3>
+                    </div>
+                    <div class="card-image">
+                        <img src="css/images/osx-yosemite.jpg" class="img-responsive" />
+                    </div>
+                    <div class="blog-content card-body">
+                        {{blog.content|truncate(230)}}
+                        <hr>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/blog/{{blog.key().id()}}" class="btn btn-primary"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                        <a href="/blog/{{blog.key().id()}}/edit" class="btn pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+<!--                         <div class="pull-right">
+                            <div class="chip-sm">
+                                <span class="chip-name"><i class="fa fa-heart-o" aria-hidden="true"></i> {{blog.likes}}</span>
+                            </div>
+                            <div class="chip-sm">
+                                <span class="chip-name"><i class="fa fa-comments-o" aria-hidden="true"></i> {{blog.comments}}</span>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor%}
+            {% endfor%}
+        {% endif %}
     </div>
     {% endif %}
+    <hr>
     <div class="columns">
         {% for blog in blogs %}
         <div class="column col-4 col-md-6 col-sm-12">
             <div class="blog card">
                 <div class="card-header">
-                    <h4 class="blog-title card-title">{{blog.subject}}</h4>
+                    <!-- Show initals when avatar image is unavailable or not fully loaded -->
+                    <div class="chip">
+                        <figure class="avatar avatar-lg" data-initial="AM" style="background-color: #5764c6;">
+                            <img src="css/images/avatar-2.png" />
+                        </figure>
+                        <div class="chip-content">
+                            {{blog.username}}
+                            <br>
+                            <small><time>{{blog.created.strftime('%c')}}</time></small>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3 class="card-title"><bold>{{blog.subject}}</bold></h3>
+                </div>
+                <div class="card-image">
+                    <img src="css/images/osx-yosemite.jpg" class="img-responsive" />
                 </div>
                 <div class="blog-content card-body">
                     {{blog.content|truncate(230)}}
                 </div>
                 <div class="card-footer">
                     <a href="/blog/{{blog.key().id()}}" class="btn btn-primary"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
-                    <div class="pull-right">
+<!--                     <div class="pull-right">
                         <div class="chip-sm">
                             <span class="chip-name"><i class="fa fa-heart-o" aria-hidden="true"></i> {{blog.likes}}</span>
                         </div>
                         <div class="chip-sm">
                             <span class="chip-name"><i class="fa fa-comments-o" aria-hidden="true"></i> {{blog.comments}}</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

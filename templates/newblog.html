@@ -1,11 +1,17 @@
 {% extends "base.html" %} {% block bodycontent %}
 <div class="columns">
     <div class="column">
-        <h3 class="page-title"><i class="fa fa-pied-piper-pp" aria-hidden="true"></i>  PyBlog</h3>
+        <figure class="avatar avatar-xl" data-initial="AM" style="background-color: #5764c6;">
+            <img src="/css/images/167.png" />
+        </figure>
+        <h3 class="page-title"><a href="/blog">PyBlog</a></h3>
     </div>
     <div class="column text-right">
-        <a class="btn btn-link" href="/blog"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
-        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+        {{user.name}}
+        <figure class="avatar avatar-md" data-initial="AM" style="background-color: #5764c6;">
+            <img src="/css/images/avatar-1.png" />
+        </figure>
+        <a class="btn" href="/blog/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
     </div>
 </div>
 <div class="columns">

@@ -19,11 +19,6 @@ body > .container {
     height: auto;
     min-height: 100%;
 }
-.content {
-    margin: 1em;
-    padding: 1em;
-    outline: ridge thick #4452c0;
-}
 footer {
     clear: both;
     position: relative;
@@ -35,8 +30,23 @@ hr {
     margin-top: 1em;
     margin-bottom: 1em;
 }
-#likebutton {
-    font-size: 2em;
-    margin: 1em 0;
-    height: auto;
+bold {
+    font-weight: bolder;
+}
+.empty {
+    margin: 2em auto;
+}
+.chip-content {
+    color: #3CB371;
+}
+.chip-content > small {
+    color: #C1C1C1;
+}
+.page-title > a {
+    text-decoration: none;
+    color: #646464;
+}
+
+blockquote > .chip{
+    font-size: 0.8em;
 }

@@ -60,9 +60,10 @@ class MainPage(Handler):
     def render_front(self, user):
         myblogs = db.GqlQuery("SELECT * FROM Blog WHERE username = '" +
                               user.name + "' ORDER BY created DESC")
+        numberofmyblogs = myblogs.count()
         blogs = db.GqlQuery("SELECT * FROM Blog WHERE username != '" +
                             user.name + "'")
-        self.render("blog.html", myblogs=myblogs, blogs=blogs, user=user)
+        self.render("blog.html", myblogs=myblogs, blogs=blogs, user=user, numberofmyblogs=numberofmyblogs)
 
     def get(self):
         if self.get_cookie('user_id'):

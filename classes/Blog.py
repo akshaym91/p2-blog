@@ -20,3 +20,11 @@ class Blog(db.Model):
     username = db.StringProperty(required=True)
     comments = db.IntegerProperty()
     likes = db.IntegerProperty()
+
+    @classmethod
+    def blog_key(cls, name='default'):
+        return db.Key.from_path('Blog', name)
+
+    @classmethod
+    def by_id(cls, uid):
+        return cls.get_by_id(uid, parent=cls.blog_key())
